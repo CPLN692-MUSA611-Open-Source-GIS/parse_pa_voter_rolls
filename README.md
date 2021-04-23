@@ -36,3 +36,11 @@ The data we get back can then be stored in a csv/lookup table and used to associ
 This is time consuming, but it should work.
 
 `geocode_subset.py` will attempt to geocode only the first 12,000 records, which is probably more suitable for demonstration purposes.
+
+
+### Associating records...
+The geocoded data from the last step should now be contained in `geocode_lookup.csv`.
+The ID field on this CSV corresponds exactly to the `rolls_out.csv` voter id field and can be used to associate a voter with their geocoded location.
+Load both CSVs into a database and you should be able to join these tables for quick lookup.
+
+Don't forget to add indexes to improve lookup performance!
