@@ -17,10 +17,11 @@ python parse_rolls.py --src voter_rolls
 
 
 ### Geocode to_geocode.csv (optional)
-To use the census tract batch geocoder, we need to create batches of at most 10,000 records.
+To use the [census batch geocoder](https://geocoding.geo.census.gov/), we need to create batches of at most 10,000 records.
+The advertised limit might be 10,000 but I've seen consistent problems when batch jobs get that large, so we'll use a smaller batch size of 1,000 records.
 The unix command (sorry Windows users...) `split` can be used here:
 ```bash
-split --verbose -a 3 -l 10000 to_geocode.csv geocode_batches/
+split --verbose -a 3 -l 1000 to_geocode.csv geocode_batches/
 ```
 
 > -a tells it how many digits of suffix to use for addressing batches
@@ -28,8 +29,10 @@ split --verbose -a 3 -l 10000 to_geocode.csv geocode_batches/
 
 
 ### Parallel geocoding
-The batch size limit on the census geocoder is 10,000.
-We will skirt this restriction by submitting, in parallel, each of the files produced in the step above as separate batches.
+We will skirt the batch size restriction by submitting, in parallel, each of the files produced in the step above as separate batches.
 The data we get back can then be stored in a csv/lookup table and used to associate voter records with their registered locations (very roughly - the geocoder is far from perfect).
 
+`geocode.py` will attempt to geocode *every* batch.
+This is time consuming, but it should work.
 
+`geocode_subset.py` will attempt to geocode only the first 12,000 records, which is probably more suitable for demonstration purposes.

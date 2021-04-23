@@ -19,7 +19,7 @@ def main():
     pool.join()
     with open("geocode_lookup.csv", 'w') as output_csv:
         fieldnames = ['voter_id', 'address', 'lat', 'lon', 'countyfp', 'tract', 'block', 'tigerlineid']
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer = csv.DictWriter(output_csv, fieldnames=fieldnames)
         for result in results:
             writer.writerows(result)
 
